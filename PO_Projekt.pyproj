@@ -22,11 +22,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PO_Projekt.py" />
+    <Compile Include="PO_Projekt_Base_Modeling.py" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="EnglishBase.txt" />
+    <Content Include="FrenchBase.txt" />
+    <Content Include="GermanBase.txt" />
+    <Content Include="ItalianBase.txt" />
     <Content Include="PolishBase.txt" />
-    <Content Include="textfile.txt" />
+    <Content Include="SpanishBase.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
