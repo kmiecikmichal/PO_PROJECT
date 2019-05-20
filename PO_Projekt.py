@@ -1,7 +1,8 @@
 import random  
-from urllib.request import urlopen
-from bs4 import BeautifulSoup
 from tkinter import * 
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+
 
 def recognition():
     #adresurl = input("Wprowadź adres strony internetowej: \nhttp://") #konsolowe wprowadzanie
@@ -11,8 +12,9 @@ def recognition():
     soup = BeautifulSoup(html,"html.parser")
     #dodać wyjątek w razie braku strony 
 
-    text = soup.body.get_text()
+    text = soup.body.get_text().lower()
     words_txt = text.split()
+
 
     with open("PolishBase.txt", encoding="utf8") as pol:
         words_pol = pol.read().split()
@@ -32,44 +34,43 @@ def recognition():
     with open("SpanishBase.txt", encoding="utf8") as esp:
         words_esp = esp.read().split() 
 
+
     inter_pol = set(words_pol) & set(words_txt)
     inter_eng = set(words_eng) & set(words_txt)
     inter_fra = set(words_fra) & set(words_txt)
     inter_ger = set(words_ger) & set(words_txt)
     inter_ita = set(words_ita) & set(words_txt)
     inter_esp = set(words_esp) & set(words_txt)
-    #dodać coś że nazwa własna to to co wystąpi w kilku językach na raz
-    #coś z set(inter_pol) & set(inter_eng)
+
 
     if   len(inter_pol) > len(inter_eng) and len(inter_pol) > len(inter_fra) and len(inter_pol) > len(inter_ger) and len(inter_pol) > len(inter_ita) and len(inter_pol) > len(inter_esp):
-         lang = "Język polski"
+         lang = "Polish language"
 
     elif len(inter_eng) > len(inter_pol) and len(inter_eng) > len(inter_fra) and len(inter_eng) > len(inter_ger) and len(inter_eng) > len(inter_ita) and len(inter_eng) > len(inter_esp):
-         lang = "Język angielski"
+         lang = "English language"
 
     elif len(inter_fra) > len(inter_pol) and len(inter_fra) > len(inter_eng) and len(inter_fra) > len(inter_ger) and len(inter_fra) > len(inter_ita) and len(inter_fra) > len(inter_esp):
-         lang = "Język francuski"
+         lang = "French language"
 
     elif len(inter_ger) > len(inter_pol) and len(inter_ger) > len(inter_eng) and len(inter_ger) > len(inter_fra) and len(inter_ger) > len(inter_ita) and len(inter_ger) > len(inter_esp):
-         lang = "Język niemiecki"
+         lang = "German language"
 
     elif len(inter_ita) > len(inter_pol) and len(inter_ita) > len(inter_eng) and len(inter_ita) > len(inter_fra) and len(inter_ita) > len(inter_ger) and len(inter_ita) > len(inter_esp):
-         lang = "Język włoski"
+         lang = "Italian language"
 
     elif len(inter_esp) > len(inter_pol) and len(inter_esp) > len(inter_eng) and len(inter_esp) > len(inter_fra) and len(inter_esp) > len(inter_ger) and len(inter_esp) > len(inter_ita):
-         lang = "Język hiszpański"
+         lang = "Spanish language"
 
     else:
-         lang = "Brak języka w bazie lub niewystarczająca ilość danych"
+         lang = "No language in the database or insufficient data"
 
     l2.config(text = lang)
   
 
 master = Tk()
 
-l1 = Label(master, text="Adres strony: ")
+l1 = Label(master, text="Website Address: ")
 l1.pack()
-
 l2 = Label(master, text = "")
 l2.pack()
 
@@ -78,7 +79,7 @@ e1.pack()
 
 b1 = Button(master, text='Quit', command = master.quit)
 b1.pack()
-b2 = Button(master, text='Show', command = recognition)
+b2 = Button(master, text='Recognize', command = recognition)
 b2.pack()
 
 mainloop( )

@@ -21,8 +21,9 @@ s = re.sub("\d+", "", w) #usuwa cyfry
 with open("ItalianBase.txt", "w+", encoding = "utf8") as w:
     w.write(s)
 w.close()
-#append
+
 """
+#append
 with open("EnglishBase.txt", "a+", encoding = "utf8") as w:
     w.write(s)
 w.close()
