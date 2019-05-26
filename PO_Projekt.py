@@ -1,26 +1,29 @@
-import random  
-from tkinter import * 
+import random
+from tkinter import *
 from bs4 import BeautifulSoup
+from urllib.error import URLError
 from urllib.request import urlopen
 
 
-def recognition():
-    #adresurl = input("Wprowadź adres strony internetowej: \nhttp://") #konsolowe wprowadzanie
-    adresurl = e1.get()
-    url = "http://" + adresurl
-    html = urlopen(url).read()
-    soup = BeautifulSoup(html,"html.parser")
-    #dodać wyjątek w razie braku strony 
 
+def recognition():
+    
+    urladdress = e1.get()
+    url = "http://" + urladdress
+    try: html = urlopen(url).read()
+    except URLError:
+        l3.config(text = "Page not found")
+        return 
+    soup = BeautifulSoup(html,"html.parser")
     text = soup.body.get_text().lower()
     words_txt = text.split()
 
 
     with open("PolishBase.txt", encoding="utf8") as pol:
-        words_pol = pol.read().split()
+         words_pol = pol.read().split()
 
     with open("EnglishBase.txt", encoding="utf8") as eng:
-        words_eng = eng.read().split() 
+         words_eng = eng.read().split() 
 
     with open("FrenchBase.txt", encoding="utf8") as fra:
          words_fra = fra.read().split()
@@ -32,7 +35,7 @@ def recognition():
          words_ita = ita.read().split()
 
     with open("SpanishBase.txt", encoding="utf8") as esp:
-        words_esp = esp.read().split() 
+         words_esp = esp.read().split() 
 
 
     inter_pol = set(words_pol) & set(words_txt)
@@ -63,23 +66,67 @@ def recognition():
 
     else:
          lang = "No language in the database or insufficient data"
-
-    l2.config(text = lang)
+    
+    l3.config(text = lang)
   
 
+
 master = Tk()
+master.resizable(0, 0)
+master.configure(bg = "gray30")
+master.title("Language recognition")
 
-l1 = Label(master, text="Website Address: ")
-l1.pack()
-l2 = Label(master, text = "")
-l2.pack()
 
-e1 = Entry(master)
-e1.pack()
+l1 = Label(master, 
+           text  = "Website Address: ", 
+           bg    = "gray30", 
+           fg    = "white", 
+           font  = ("Verdana", 14))
+l1.pack(pady = 10)
 
-b1 = Button(master, text='Quit', command = master.quit)
-b1.pack()
-b2 = Button(master, text='Recognize', command = recognition)
-b2.pack()
+
+e1 = Entry(master, 
+           width = 40, 
+           fg    = "gray20", 
+           font  = ("Verdana", 14))
+e1.pack(padx = 20)
+
+
+l2 = Label(master, 
+           text  = "Language:", 
+           bg    = "gray30", 
+           fg    = "white", 
+           font  = ("Verdana", 14))
+l2.pack(pady = 10)
+
+
+l3 = Label(master, 
+           text  = "", 
+           width = 40, 
+           bg    = "white", 
+           fg    = "gray20", 
+           font  = ("Verdana",14))
+l3.pack(padx = 20)
+
+
+b1 = Button(master, 
+            text    = "Quit",
+            command = master.quit, 
+            width   = 10,
+            bg      = "white", 
+            fg      = "gray20", 
+            font    = "Verdana")
+b1.pack(side = LEFT, padx = 20, pady = 20)
+
+
+b2 = Button(master, 
+            text    = "Recognize", 
+            command = recognition, 
+            width   = 10,
+            bg      = "white", 
+            fg      = "gray20", 
+            font    = "Verdana")
+b2.pack(side = RIGHT, padx = 20, pady = 20)
+
 
 mainloop( )
