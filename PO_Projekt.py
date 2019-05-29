@@ -1,4 +1,7 @@
+import os
 import random
+import matplotlib
+import matplotlib.pyplot as plt
 from tkinter import *
 from bs4 import BeautifulSoup
 from urllib.error import URLError
@@ -7,28 +10,35 @@ from urllib.request import urlopen
 
 
 def recognition():
+
+    try: os.remove("plot.png")
+    except: pass
     
     urladdress = e1.get()
     url = "http://" + urladdress
+
     try: html = urlopen(url).read()
     except URLError:
-        l3.config(text = "Page not found")
+        l1.place_forget()
+        l4.config(text = "Page not found")
+        master.minsize(540,274)
         return 
+
     soup = BeautifulSoup(html,"html.parser")
     text = soup.body.get_text().lower()
     words_txt = text.split()
 
 
-    with open("PolishBase.txt", encoding="utf8") as pol:
+    with open("PolishBase.txt", encoding="utf8")  as pol:
          words_pol = pol.read().split()
 
     with open("EnglishBase.txt", encoding="utf8") as eng:
          words_eng = eng.read().split() 
 
-    with open("FrenchBase.txt", encoding="utf8") as fra:
+    with open("FrenchBase.txt", encoding="utf8")  as fra:
          words_fra = fra.read().split()
 
-    with open("GermanBase.txt", encoding="utf8") as ger:
+    with open("GermanBase.txt", encoding="utf8")  as ger:
          words_ger = ger.read().split() 
 
     with open("ItalianBase.txt", encoding="utf8") as ita:
@@ -45,6 +55,29 @@ def recognition():
     inter_ita = set(words_ita) & set(words_txt)
     inter_esp = set(words_esp) & set(words_txt)
 
+
+    amount = (len(inter_pol) + len(inter_eng) + len(inter_fra) + len(inter_ger) + len(inter_ita) + len(inter_esp))
+
+    if    amount != 0:
+          prob_pol = 100 * len(inter_pol) / amount
+          prob_eng = 100 * len(inter_eng) / amount
+          prob_fra = 100 * len(inter_fra) / amount
+          prob_ger = 100 * len(inter_ger) / amount
+          prob_ita = 100 * len(inter_ita) / amount
+          prob_esp = 100 * len(inter_esp) / amount
+          
+          try: plt.clf()
+          except: pass
+
+          hist_lan = ("POL","ENG","FRA","GER","ITA","ESP")
+          hist_val = (prob_pol,prob_eng,prob_fra,prob_ger,prob_ita,prob_esp)
+
+          plt.bar(hist_lan, hist_val)
+          plt.title("Probability of language recognition")
+          plt.ylim(0, 100)
+          plt.ylabel("Probability [%]")
+          plt.savefig("plot.png")
+        
 
     if   len(inter_pol) > len(inter_eng) and len(inter_pol) > len(inter_fra) and len(inter_pol) > len(inter_ger) and len(inter_pol) > len(inter_ita) and len(inter_pol) > len(inter_esp):
          lang = "Polish language"
@@ -66,67 +99,77 @@ def recognition():
 
     else:
          lang = "No language in the database or insufficient data"
-    
-    l3.config(text = lang)
-  
 
+
+    try:
+        photo = PhotoImage(file = "plot.png")
+        l1.config(image = photo)
+        l1.image = photo
+        l1.place(x = 540, y = 20)
+        master.minsize(1200, 520)
+    except:
+        l1.place_forget()
+        master.minsize(540, 274)
+
+    l4.config(text = lang)
+
+    
 
 master = Tk()
-master.resizable(0, 0)
+master.minsize(540,274)
 master.configure(bg = "gray30")
 master.title("Language recognition")
 
 
-l1 = Label(master, 
+l1 = Label(master)
+
+
+l2 = Label(master, 
            text  = "Website Address: ", 
            bg    = "gray30", 
            fg    = "white", 
            font  = ("Verdana", 14))
-l1.pack(pady = 10)
+l2.place(x = 20, y = 10, width = 500, height = 64)
 
 
-e1 = Entry(master, 
-           width = 40, 
+e1 = Entry(master,  
            fg    = "gray20", 
            font  = ("Verdana", 14))
-e1.pack(padx = 20)
+e1.place(x = 20, y = 70, width = 500, height = 28)
 
 
-l2 = Label(master, 
+l3 = Label(master, 
            text  = "Language:", 
            bg    = "gray30", 
            fg    = "white", 
            font  = ("Verdana", 14))
-l2.pack(pady = 10)
+l3.place(x = 20, y = 118, width = 500, height = 64)
 
 
-l3 = Label(master, 
+l4 = Label(master, 
            text  = "", 
-           width = 40, 
            bg    = "white", 
            fg    = "gray20", 
            font  = ("Verdana",14))
-l3.pack(padx = 20)
+l4.place(x = 20, y = 178, width = 500, height = 28)
 
 
 b1 = Button(master, 
             text    = "Quit",
             command = master.quit, 
-            width   = 10,
             bg      = "white", 
             fg      = "gray20", 
             font    = "Verdana")
-b1.pack(side = LEFT, padx = 20, pady = 20)
+b1.place(x = 20, y = 226, width = 60, height = 28)
 
 
 b2 = Button(master, 
             text    = "Recognize", 
             command = recognition, 
-            width   = 10,
             bg      = "white", 
             fg      = "gray20", 
             font    = "Verdana")
-b2.pack(side = RIGHT, padx = 20, pady = 20)
+b2.place(x = 400, y = 226, width = 120, height = 28)
 
 
 mainloop( )

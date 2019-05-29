@@ -20776,7 +20776,6 @@ voice
 eye:
 hen
 lighter.
-
 plain:
 too:
 ‘they’ll
@@ -20789,7 +20788,6 @@ border-land
 muil:
 rauros.
 hesitating?
-
 betrayed.
 destruction
 burden.
@@ -20809,7 +20807,6 @@ appoint
 companions:
 otherwise;
 city,
-
 imagine
 turned.
 where’s
@@ -20824,7 +20821,6 @@ name’s
 baggins.’
 ‘stop
 bearer,
-
 tried.
 stronger.’
 ‘‘screw
@@ -20839,7 +20835,6 @@ have;
 has,
 unwelcome
 visitor,
-
 know!
 know!’
 vanished!’
@@ -20865,7 +20860,6 @@ scared
 badly.
 screwed
 sudden.
-
 sam?
 hard.’
 brushing
@@ -20892,7 +20886,6 @@ water-rat.
 nuisances
 worst,
 hard!’
-
 ‘safely
 ‘safely!’
 it’d
@@ -20904,7 +20897,6 @@ fished
 emptied
 companions’
 spoilt!’
-
 boulder.
 shouldering
 shadow.
