@@ -1,15 +1,17 @@
 import os
-import random
 import matplotlib
 import matplotlib.pyplot as plt
 from tkinter import *
 from bs4 import BeautifulSoup
 from urllib.error import URLError
 from urllib.request import urlopen
+import time as t
 
 
 
 def recognition():
+
+    start = t.time()
 
     try: os.remove("plot.png")
     except: pass
@@ -23,6 +25,7 @@ def recognition():
         l4.config(text = "Page not found")
         master.minsize(540,274)
         return 
+
 
     soup = BeautifulSoup(html,"html.parser")
     text = soup.body.get_text().lower()
@@ -100,6 +103,8 @@ def recognition():
     else:
          lang = "No language in the database or insufficient data"
 
+    end = t.time()
+    elapsed_time = round((end - start),5)
 
     try:
         photo = PhotoImage(file = "plot.png")
@@ -112,7 +117,8 @@ def recognition():
         master.minsize(540, 274)
 
     l4.config(text = lang)
-
+    l5.config(text = ("elapsed time ", elapsed_time, "s"))
+    
     
 
 master = Tk()
@@ -154,12 +160,20 @@ l4 = Label(master,
 l4.place(x = 20, y = 178, width = 500, height = 28)
 
 
+l5 = Label(master, 
+           text  = "", 
+           bg    = "gray30", 
+           fg    = "white", 
+           font  = ("Verdana",8))
+l5.place(x = 20, y = 480, height = 20)
+
+
 b1 = Button(master, 
             text    = "Quit",
             command = master.quit, 
             bg      = "white", 
             fg      = "gray20", 
-            font    = "Verdana")
+            font    = ("Verdana",12))
 b1.place(x = 20, y = 226, width = 60, height = 28)
 
 
@@ -168,7 +182,7 @@ b2 = Button(master,
             command = recognition, 
             bg      = "white", 
             fg      = "gray20", 
-            font    = "Verdana")
+            font    = ("Verdana",12))
 b2.place(x = 400, y = 226, width = 120, height = 28)
 
 

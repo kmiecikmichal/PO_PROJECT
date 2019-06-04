@@ -4,7 +4,7 @@ import re
 
 
 with open("ItalianBase.txt", encoding="utf8") as f:
-     words = f.read().split()
+     words = f.read().split(" ")
 
 word_dict = defaultdict(list)
 for word, next_word in zip(words, words[1:]):
